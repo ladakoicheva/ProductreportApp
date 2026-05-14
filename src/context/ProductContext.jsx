@@ -1,11 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import { getImageForProduct, getAllImages } from '../firebase/db/images/imageStorage'
+import { getImageForProduct } from '../firebase/db/images/imageStorage'
 
 const ProductContext = createContext()
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([])
-  const [images, setImages] = useState({})
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
@@ -23,19 +22,14 @@ export const ProductProvider = ({ children }) => {
     }
   }
 
-  // Загрузить все картинки из localStorage
-  const loadAllImages = () => {
+  // Получить картинку для продукта из Firestore
+  const getProductImage = async (productId) => {
     try {
-      const allImages = getAllImages()
-      setImages(allImages)
+      return await getImageForProduct(productId)
     } catch (err) {
-      console.error('Error loading images:', err)
+      console.error(`Error loading image for product ${productId}:`, err)
+      return null
     }
-  }
-
-  // Получить картинку для продукта
-  const getProductImage = (productId) => {
-    return images[productId] || null
   }
 
   // Получить продукт по ID
@@ -60,18 +54,11 @@ export const ProductProvider = ({ children }) => {
     setProducts(products.filter(p => p.productId !== productId))
   }
 
-  // Начальная загрузка картинок
-  useEffect(() => {
-    loadAllImages()
-  }, [])
-
   const value = {
     products,
-    images,
     loading,
     error,
     loadProducts,
-    loadAllImages,
     getProductImage,
     getProductById,
     addProduct,

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import { useProductStore } from '../../store/productStore'
 import styles from './ReportPage.module.css'
@@ -7,9 +7,19 @@ export default function ReportPage() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { products, getImage } = useProductStore()
+  const [image, setImage] = useState(null)
 
   const product = products.find(p => p.productId === id)
-  const image = product ? getImage(product.productId) : null
+
+  useEffect(() => {
+    const loadImage = async () => {
+      if (product) {
+        const productImage = await getImage(product.productId)
+        setImage(productImage)
+      }
+    }
+    loadImage()
+  }, [product, getImage])
 
   const getMicrobialActivity = (productionMethod) => {
     switch (productionMethod) {

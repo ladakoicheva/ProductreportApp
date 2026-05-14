@@ -1,10 +1,9 @@
 import { useState } from 'react'
-import { getAllImages, getImageForProduct } from '../firebase/db/images/imageStorage'
+import { getImageForProduct } from '../firebase/db/images/imageStorage'
 
 // Store for state management
 let storeState = {
   products: [],
-  images: {},
 }
 
 // Subscribers for changes
@@ -26,17 +25,11 @@ export const subscribe = (callback) => {
 // Get current state
 export const getState = () => storeState
 
-// Store actions (read-only)
+// Store actions
 export const productStore = {
   // Load products
   setProducts: (products) => {
     storeState.products = products
-    notifySubscribers()
-  },
-
-  // Load images from localStorage
-  loadImages: () => {
-    storeState.images = getAllImages()
     notifySubscribers()
   },
 
@@ -45,16 +38,13 @@ export const productStore = {
     return storeState.products.find(p => p.productId === productId)
   },
 
-  // Get image for product DIRECTLY from localStorage
-  getImage: (productId) => {
-    return getImageForProduct(productId)
+  // Get image for product from Firestore
+  getImage: async (productId) => {
+    return await getImageForProduct(productId)
   },
 
   // Get all products
   getProducts: () => storeState.products,
-
-  // Get all images
-  getImages: () => storeState.images,
 }
 
 // Custom hook for using Store
@@ -71,12 +61,9 @@ export const useProductStore = () => {
 
   return {
     products: state.products,
-    images: state.images,
     getProductById: productStore.getProductById,
     getImage: productStore.getImage,
     getProducts: productStore.getProducts,
-    getImages: productStore.getImages,
     setProducts: productStore.setProducts,
-    loadImages: productStore.loadImages,
   }
 }

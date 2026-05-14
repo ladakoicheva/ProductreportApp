@@ -27,7 +27,7 @@ export default function Form() {
             const storageRef = ref(APP_STORAGE, `product_images/${productId}-${fileRef.current.name}`)
             await uploadBytes(storageRef, fileRef.current)
             const downloadURL = await getDownloadURL(storageRef)
-            saveImageForProduct(productId, downloadURL)
+            await saveImageForProduct(productId, downloadURL)
             console.log(`Image uploaded for product ${productId}`)
           } catch (error) {
             console.error('Error uploading image:', error)

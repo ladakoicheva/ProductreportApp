@@ -1,53 +1,76 @@
-// Utility for working with images (URLs are stored in localStorage)
-import imageData from '../../mockData/imageData.json'
+// Utility for working with images in Firebase Storage
+import { APP_DB } from "../.."
+import { doc, getDoc, setDoc, deleteField } from "firebase/firestore"
 
-const IMAGES_KEY = 'product_images'
+const IMAGES_COLLECTION = 'product_images'
 
-// Synchronize imageData.json with localStorage on load
-export const initializeImages = () => {
-  const existingImages = localStorage.getItem(IMAGES_KEY)
-
-  // If localStorage is empty, load from imageData.json
-  if (!existingImages) {
-    localStorage.setItem(IMAGES_KEY, JSON.stringify(imageData.images || {}))
-    console.log('Images loaded from imageData.json to localStorage')
-  } else {
-    console.log('Images already in localStorage, sync skipped')
+// Сохранить URL картинки для продукта в Firestore
+export const saveImageForProduct = async (productId, imageUrl) => {
+  try {
+    const docRef = doc(APP_DB, IMAGES_COLLECTION, productId)
+    await setDoc(docRef, { imageUrl, productId }, { merge: true })
+    console.log(`URL картинки для продукта ${productId} сохранён в Firestore`)
+    return true
+  } catch (error) {
+    console.error('Error saving image URL to Firestore:', error)
+    return false
   }
 }
 
-// Получить все картинки из localStorage (URLs)
-export const getAllImages = () => {
-  const data = localStorage.getItem(IMAGES_KEY)
-  return data ? JSON.parse(data) : {}
-}
-
-// Сохранить URL картинки для продукта в localStorage
-export const saveImageForProduct = (productId, imageUrl) => {
-  const images = getAllImages()
-  images[productId] = imageUrl
-  localStorage.setItem(IMAGES_KEY, JSON.stringify(images))
-  console.log(`URL картинки для продукта ${productId} сохранён в localStorage`)
-}
-
-
 // Получить картинку для продукта
-export const getImageForProduct = (productId) => {
-  const images = getAllImages()
-  const image = images[productId] || null
-  console.log(`Получена картинка для продукта ${productId}:`, !!image)
-  return image
+export const getImageForProduct = async (productId) => {
+  try {
+    const docRef = doc(APP_DB, IMAGES_COLLECTION, productId)
+    const docSnap = await getDoc(docRef)
+
+    if (docSnap.exists() && docSnap.data().imageUrl) {
+      console.log(`Получена картинка для продукта ${productId}:`, true)
+      return docSnap.data().imageUrl
+    }
+
+    console.log(`Картинка для продукта ${productId} не найдена`)
+    return null
+  } catch (error) {
+    console.error('Error getting image URL from Firestore:', error)
+    return null
+  }
+}
+
+// Получить все картинки из Firestore
+export const getAllImages = async () => {
+  try {
+    // Примечание: это работает только если у вас небольшое количество изображений
+    // Для больших объёмов лучше использовать pagination
+    const allImages = {}
+    // Этот метод требует структуры данных - рекомендуется хранить URLs прямо в коллекции products
+    console.log('getAllImages: используйте getImageForProduct для отдельных продуктов')
+    return allImages
+  } catch (error) {
+    console.error('Error getting all images:', error)
+    return {}
+  }
 }
 
 // Удалить картинку для продукта
-export const deleteImageForProduct = (productId) => {
-  const images = getAllImages()
-  delete images[productId]
-  localStorage.setItem(IMAGES_KEY, JSON.stringify(images))
+export const deleteImageForProduct = async (productId) => {
+  try {
+    const docRef = doc(APP_DB, IMAGES_COLLECTION, productId)
+    await setDoc(docRef, { imageUrl: deleteField() }, { merge: true })
+    console.log(`Картинка для продукта ${productId} удалена из Firestore`)
+    return true
+  } catch (error) {
+    console.error('Error deleting image URL from Firestore:', error)
+    return false
+  }
 }
 
-// Очистить все картинки
-export const clearAllImages = () => {
-  localStorage.removeItem(IMAGES_KEY)
+// Очистить все картинки (осторожно!)
+export const clearAllImages = async () => {
+  try {
+    console.warn('clearAllImages: удаление всех изображений. Используйте осторожно!')
+    // Реализовать, если нужно
+  } catch (error) {
+    console.error('Error clearing images:', error)
+  }
 }
 

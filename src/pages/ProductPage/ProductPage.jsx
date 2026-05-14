@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import { useProductStore } from '../../store/productStore'
 import { getProducts } from '../../firebase/db/products/products'
 import styles from './ProductPage.module.css'
 
 export default function ProductPage() {
-  const { products, getImage, setProducts, loadImages } = useProductStore()
+  const { products, getImage, setProducts } = useProductStore()
+  const [images, setImages] = useState({})
 
   useEffect(() => {
     const loadProductsFromFirestore = async () => {
@@ -14,13 +15,17 @@ export default function ProductPage() {
         console.log('Loaded products:', productsData)
 
         setProducts(productsData)
-        loadImages()
 
-        // Check images
-        productsData.forEach(product => {
-          const image = getImage(product.productId)
-          console.log(`Product: ${product.productId}, Image found: ${!!image}`)
-        })
+        // Load images for all products
+        const loadedImages = {}
+        for (const product of productsData) {
+          const image = await getImage(product.productId)
+          if (image) {
+            loadedImages[product.productId] = image
+            console.log(`Product: ${product.productId}, Image loaded: true`)
+          }
+        }
+        setImages(loadedImages)
       } catch (error) {
         console.error('Error loading:', error)
       }
@@ -38,7 +43,7 @@ export default function ProductPage() {
       ) : (
         <div className={styles.productsList}>
           {products.map(product => {
-            const image = getImage(product.productId)
+            const image = images[product.productId]
             return (
               <div key={product.productId} className={styles.productCard}>
                 <Link to={`/products/${product.productId}`} className={styles.imageLink}>
