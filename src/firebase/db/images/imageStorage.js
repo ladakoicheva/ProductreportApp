@@ -51,26 +51,4 @@ export const getAllImages = async () => {
   }
 }
 
-// Удалить картинку для продукта
-export const deleteImageForProduct = async (productId) => {
-  try {
-    const docRef = doc(APP_DB, IMAGES_COLLECTION, productId)
-    await setDoc(docRef, { imageUrl: deleteField() }, { merge: true })
-    console.log(`Картинка для продукта ${productId} удалена из Firestore`)
-    return true
-  } catch (error) {
-    console.error('Error deleting image URL from Firestore:', error)
-    return false
-  }
-}
-
-// Очистить все картинки (осторожно!)
-export const clearAllImages = async () => {
-  try {
-    console.warn('clearAllImages: удаление всех изображений. Используйте осторожно!')
-    // Реализовать, если нужно
-  } catch (error) {
-    console.error('Error clearing images:', error)
-  }
-}
 

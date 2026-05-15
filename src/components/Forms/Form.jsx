@@ -75,11 +75,11 @@ export default function Form() {
       <div className={styles.formGroup}>
         <label htmlFor="category" className={styles.label}>Category:</label>
         <select id="category" name="category" value={formik.values.category} onChange={formik.handleChange} className={styles.select}>
-          <option value="Meat & Poultry">Meat & Poultry</option>
+          <option value="Meat & Poultry">Meat </option>
           <option value="">Vegetables & Greens</option>
           <option value="Dairy & Eggs">Dairy & Eggs</option>
-          <option value="Bakery & Grains">Bakery & Grains</option>
-          <option value="Beverages">Beverages</option>
+          <option value="Fruits">Fruits</option>
+          <option value="Wine">Wine</option>
         </select>
       </div>
 
