@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import { useProductStore } from '../../store/productStore'
 import styles from './ReportPage.module.css'
+import SafeMap from '../../components/SafeMap/SafeMap'
 
 export default function ReportPage() {
   const { id } = useParams()
@@ -188,7 +189,7 @@ export default function ReportPage() {
             )}
           </div>
         </section>
-
+            <SafeMap mapUrl={product?.location} />
         {/* Action Buttons */}
         <section className={styles.actions}>
           <button className={`${styles.actionButton} ${styles.downloadButton}`}>

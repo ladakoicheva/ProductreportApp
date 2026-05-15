@@ -6,6 +6,7 @@ import { sendData } from '../../firebase/db/products/products'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { APP_STORAGE } from '../../firebase'
 import { useAuth } from '../../context/AuthContext'
+import { CATEGORIES } from '../../constants/categories'
 
 export default function Form() {
   const { user } = useAuth()
@@ -23,6 +24,7 @@ export default function Form() {
       processing: '',
       qualityCheck: '',
       packaging: '',
+      location: '',
     },
     onSubmit: async (values) => {
       try {
@@ -85,11 +87,9 @@ export default function Form() {
       <div className={styles.formGroup}>
         <label htmlFor="category" className={styles.label}>Category:</label>
         <select id="category" name="category" value={formik.values.category} onChange={formik.handleChange} className={styles.select}>
-          <option value="Meat & Poultry">Meat </option>
-          <option value="">Vegetables & Greens</option>
-          <option value="Dairy & Eggs">Dairy & Eggs</option>
-          <option value="Fruits">Fruits</option>
-          <option value="Wine">Wine</option>
+          {CATEGORIES.map(cat => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
         </select>
       </div>
 
@@ -126,6 +126,11 @@ export default function Form() {
         <label htmlFor="packaging" className={styles.label}>Packaging:</label>
         <textarea id="packaging" value={formik.values.packaging} onChange={formik.handleChange} className={styles.textarea} placeholder="Describe packaging details" rows="4"></textarea>
       </div>
+      <div className={styles.formGroup}>
+        <label htmlFor="location" className={styles.label}>Location:</label>
+        <textarea id="location" value={formik.values.location} onChange={formik.handleChange} className={styles.textarea} placeholder="Send google maps link" rows="4"></textarea>
+      </div>
+
 
       <button type="submit" className={styles.button}>Submit</button>
     </form>
