@@ -21,12 +21,8 @@ export default function Header() {
       <nav className={styles.nav}>
         <div className={styles.links}>
           <Link to='/'>Home</Link>
-          {user && (
-            <>
-              <Link to='/products'>Products</Link>
-              <Link to='/add'>Add Product</Link>
-            </>
-          )}
+          <Link to='/products'>Products</Link>
+          {user && <Link to='/add'>Add Product</Link>}
         </div>
         <div className={styles.userSection}>
           {user ? (

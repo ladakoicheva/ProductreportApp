@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { useProductStore } from '../../store/productStore'
 import { getProducts } from '../../firebase/db/products/products'
 import styles from './ProductPage.module.css'
+import SideBar from '../../components/SideBar/SideBar'
 
 export default function ProductPage() {
   const { products, setProducts } = useProductStore()
@@ -67,6 +68,7 @@ export default function ProductPage() {
           })}
         </div>
       )}
+      
     </div>
   )
 }

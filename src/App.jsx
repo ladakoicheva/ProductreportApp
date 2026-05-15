@@ -16,27 +16,13 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/auth' element={<AuthPage />} />
+          <Route path='products' element={<ProductPage />} />
+          <Route path='products/:id' element={<ReportPage />} />
           <Route
             path='/add'
             element={
               <ProtectedRoute>
                 <ProductAddPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='products'
-            element={
-              <ProtectedRoute>
-                <ProductPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='products/:id'
-            element={
-              <ProtectedRoute>
-                <ReportPage />
               </ProtectedRoute>
             }
           />

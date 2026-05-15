@@ -232,47 +232,79 @@
   font-weight: bold;
 }
 
-/* Gallery */
-.gallerySubtitle {
-  color: #666;
-  font-style: italic;
-  margin-bottom: 30px;
+/* Process Timeline */
+.processTimeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  padding: 20px 0;
 }
 
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 25px;
+.processTimeline::before {
+  content: '';
+  position: absolute;
+  left: 40px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, #4CAF50, transparent);
 }
 
-.galleryItem {
-  text-align: center;
-  padding: 20px;
-  background: #f9f9f9;
-  border-radius: 8px;
-  border-top: 4px solid #4CAF50;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.processStep {
+  display: flex;
+  gap: 0;
+  margin-bottom: 45px;
+  position: relative;
+  margin-left: 20px;
 }
 
-.galleryItem:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-.placeholder {
-  font-size: 3rem;
-  margin-bottom: 15px;
-  display: block;
-  height: 80px;
+.stepIcon {
+  font-size: 2.5rem;
+  min-width: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: white;
+  border: 3px solid #4CAF50;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
 }
 
-.galleryItem p {
-  font-weight: bold;
+.stepContent {
+  flex: 1;
+  background: linear-gradient(135deg, #f9f9f9, #ffffff);
+  padding: 25px 30px;
+  border-radius: 8px;
+  border-left: 4px solid #4CAF50;
+  margin-left: 20px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.stepContent:hover {
+  transform: translateX(10px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.15);
+}
+
+.stepContent h4 {
   color: #333;
+  font-size: 1.3rem;
+  margin: 0 0 12px 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stepContent p {
+  color: #666;
+  font-size: 1rem;
   margin: 0;
+  line-height: 1.6;
 }
 
 /* Action Buttons */
@@ -346,5 +378,33 @@
 
   .actionButton {
     width: 100%;
+  }
+
+  /* Process Timeline Mobile */
+  .processTimeline {
+    padding: 20px 0 20px 0;
+  }
+
+  .processTimeline::before {
+    left: 25px;
+  }
+
+  .stepIcon {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+
+  .stepContent {
+    margin-left: 15px;
+    padding: 20px;
+  }
+
+  .stepContent h4 {
+    font-size: 1.1rem;
+  }
+
+  .stepContent p {
+    font-size: 0.95rem;
   }
 }

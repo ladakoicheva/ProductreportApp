@@ -145,27 +145,47 @@ export default function ReportPage() {
           </div>
         </section>
 
-        {/* Process Gallery */}
+        {/* Process Transparency */}
         <section className={styles.section}>
           <h3>PROCESS TRANSPARENCY: From Soil to Table</h3>
-          <p className={styles.gallerySubtitle}>See the entire journey of our product</p>
-          <div className={styles.gallery}>
-            <div className={styles.galleryItem}>
-              <div className={styles.placeholder}>📷</div>
-              <p>Field/Farm</p>
+          <div className={styles.processTimeline}>
+            <div className={styles.processStep}>
+              <div className={styles.stepIcon}>📷</div>
+              <div className={styles.stepContent}>
+                <h4>Farm to Harvest</h4>
+                <p>Our product begins its journey in the field, grown with care and sustainable practices to ensure quality from the very start.</p>
+              </div>
             </div>
-            <div className={styles.galleryItem}>
-              <div className={styles.placeholder}>🔄</div>
-              <p>Processing</p>
-            </div>
-            <div className={styles.galleryItem}>
-              <div className={styles.placeholder}>✅</div>
-              <p>Quality Check</p>
-            </div>
-            <div className={styles.galleryItem}>
-              <div className={styles.placeholder}>📦</div>
-              <p>Packaging</p>
-            </div>
+
+            {product.processing && (
+              <div className={styles.processStep}>
+                <div className={styles.stepIcon}>🔄</div>
+                <div className={styles.stepContent}>
+                  <h4>Processing</h4>
+                  <p>{product.processing}</p>
+                </div>
+              </div>
+            )}
+
+            {product.qualityCheck && (
+              <div className={styles.processStep}>
+                <div className={styles.stepIcon}>✅</div>
+                <div className={styles.stepContent}>
+                  <h4>Quality Check</h4>
+                  <p>{product.qualityCheck}</p>
+                </div>
+              </div>
+            )}
+
+            {product.packaging && (
+              <div className={styles.processStep}>
+                <div className={styles.stepIcon}>📦</div>
+                <div className={styles.stepContent}>
+                  <h4>Packaging</h4>
+                  <p>{product.packaging}</p>
+                </div>
+              </div>
+            )}
           </div>
         </section>
 

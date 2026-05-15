@@ -20,6 +20,9 @@ export default function Form() {
       productionMethod: '100%Grass-fed',
       quality: 50,
       carbonSequestration: '',
+      processing: '',
+      qualityCheck: '',
+      packaging: '',
     },
     onSubmit: async (values) => {
       try {
@@ -107,6 +110,21 @@ export default function Form() {
       <div className={styles.formGroup}>
         <label htmlFor="carbonSequestration" className={styles.label}>Carbon Sequestration:</label>
         <input id="carbonSequestration" type="number" value={formik.values.carbonSequestration} onChange={formik.handleChange} className={styles.input} placeholder="Enter value" />
+      </div>
+
+      <div className={styles.formGroup}>
+        <label htmlFor="processing" className={styles.label}>Processing:</label>
+        <input id="processing" type="text" value={formik.values.processing} onChange={formik.handleChange} className={styles.input} placeholder="Describe processing method" />
+      </div>
+
+      <div className={styles.formGroup}>
+        <label htmlFor="qualityCheck" className={styles.label}>Quality Check:</label>
+        <input id="qualityCheck" type="text" value={formik.values.qualityCheck} onChange={formik.handleChange} className={styles.input} placeholder="Describe quality check process" />
+      </div>
+
+      <div className={styles.formGroup}>
+        <label htmlFor="packaging" className={styles.label}>Packaging:</label>
+        <input id="packaging" type="text" value={formik.values.packaging} onChange={formik.handleChange} className={styles.input} placeholder="Describe packaging details" />
       </div>
 
       <button type="submit" className={styles.button}>Submit</button>
