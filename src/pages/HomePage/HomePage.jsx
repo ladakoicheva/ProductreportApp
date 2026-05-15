@@ -32,7 +32,7 @@ export default function HomePage() {
       <section className={styles.hero}>
         <div className={styles.heroOverlay}></div>
         <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>Miller & Harris</h1>
+          <h1 className={styles.heroTitle}>Bauern</h1>
           <p className={styles.heroSubtitle}>We make creative fuel for your firm</p>
           <Link to="/products" className={styles.heroCTA}>See Products</Link>
         </div>
@@ -43,9 +43,9 @@ export default function HomePage() {
         <div className={styles.approachContent}>
           <h2 className={styles.approachTitle}>Our Approach</h2>
           <p className={styles.approachText}>
-            We understand that quality and reliability are the most important things for our customers.
-            That is why we carefully select every product, check its quality and ensure fast and safe delivery.
-            Your satisfaction is our goal! We are committed to providing the best products and services.
+            We believe people deserve to know where their food comes from. Our platform connects customers directly with farms through transparent product journeys, realtime sustainability data, and verified environmental impact.
+
+            From farm to table — we make sustainable food simple, trustworthy, and easy to explore
           </p>
         </div>
       </section>
@@ -77,14 +77,13 @@ export default function HomePage() {
         <div className={styles.aboutContent}>
           <h2>About Us</h2>
           <p>
-            Our online store has been operating in the market for over 10 years, providing customers
-            with quality products at fair prices. We believe that every customer deserves the best service
-            and the highest quality products available.
+            Welcome to Bauern!
+
+            We believe people deserve to know where their food comes from. Our platform connects customers directly with farms through transparent product journeys, realtime sustainability data, and verified environmental impact.
+
+            From farm to table — we make sustainable food simple, trustworthy, and easy to explore
           </p>
-          <p>
-            With us, you not only get goods, but a partnership based on trust and mutual respect.
-            Join thousands of satisfied customers throughout the world!
-          </p>
+         
         </div>
         <div className={styles.aboutImage}>🏢</div>
       </section>

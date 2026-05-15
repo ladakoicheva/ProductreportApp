@@ -33,7 +33,7 @@ export default function Header() {
               </button>
             </>
           ) : (
-            <Link to='/auth' className={styles.loginBtn}>Вход</Link>
+            <Link to='/auth' className={styles.loginBtn}>Log In</Link>
           )}
         </div>
       </nav>

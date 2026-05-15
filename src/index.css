@@ -19,7 +19,8 @@
   letter-spacing: 0.18px;
   color-scheme: light dark;
   color: var(--text);
-  background: var(--bg);
+  background: url('./assets/Gemini_Generated_Image_e1xo80e1xo80e1xo.png') no-repeat center center fixed;
+  background-size: cover;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
