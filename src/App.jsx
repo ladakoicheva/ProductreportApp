@@ -7,10 +7,12 @@ import { Route, Routes, HashRouter } from "react-router"
 import ReportPage from "./pages/ReportPage/ReportPage"
 import { AuthProvider } from "./context/AuthContext"
 import ProtectedRoute from "./components/ProtectedRoute"
+import { ProductProvider } from "./context/ProductContext"  
 
 function App() {
   return (
     <AuthProvider>
+      <ProductProvider>
       <HashRouter>
         <Header />
         <Routes>
@@ -28,6 +30,7 @@ function App() {
           />
         </Routes>
       </HashRouter>
+      </ProductProvider>
     </AuthProvider>
   )
 }

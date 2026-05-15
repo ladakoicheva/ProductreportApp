@@ -45,6 +45,14 @@ export const productStore = {
 
   // Get all products
   getProducts: () => storeState.products,
+
+  getShowProducts: (category) => {
+    if (category === 'All') {
+      return storeState.products
+    } else {
+      return storeState.products.filter(p => p.category === category)
+    }
+  }
 }
 
 // Custom hook for using Store
@@ -65,5 +73,7 @@ export const useProductStore = () => {
     getImage: productStore.getImage,
     getProducts: productStore.getProducts,
     setProducts: productStore.setProducts,
+    getShowProducts: productStore.getShowProducts, 
+      
   }
 }

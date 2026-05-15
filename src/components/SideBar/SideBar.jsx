@@ -1,20 +1,16 @@
 import React, { useState } from 'react'
-import { useProductStore } from '../../store/productStore'
 import { CATEGORIES } from '../../constants/categories'
 import styles from './SideBar.module.css'
+import { useProducts } from '../../context/ProductContext'
 
 export default function SideBar() {
-  const { products } = useProductStore()
+  // Достаем полный список продуктов (для подсчета) и функцию фильтрации
+  const { products, filterByCategory } = useProducts()
   const [selectedCategory, setSelectedCategory] = useState('All')
 
-  // Считаем продукты по категориям
-  const getCategoryCount = (category) => {
-    return products.filter(p => p.category === category).length
-  }
-
   const handleCategoryClick = (category) => {
-    setSelectedCategory(category)
-    // TODO: Фильтровать продукты на ProductPage по выбранной категории
+    setSelectedCategory(category) // Красим активную кнопку
+    filterByCategory(category)    // Меняем товары на странице
   }
 
   return (
@@ -30,8 +26,12 @@ export default function SideBar() {
         </li>
 
         {CATEGORIES.map(category => {
-          const count = getCategoryCount(category)
-          return count > 0 ? (
+          // Считаем продукты по категориям
+          const count = products.filter(p => p.category === category).length
+
+          if (count === 0) return null
+
+          return (
             <li
               key={category}
               className={`${styles.categoryItem} ${selectedCategory === category ? styles.active : ''}`}
@@ -40,7 +40,7 @@ export default function SideBar() {
               <span className={styles.categoryName}>{category}</span>
               <span className={styles.count}>{count}</span>
             </li>
-          ) : null
+          )
         })}
       </ul>
     </div>

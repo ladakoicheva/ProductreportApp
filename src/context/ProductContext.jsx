@@ -5,8 +5,14 @@ const ProductContext = createContext()
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([])
+  const [showProducts, setShowProducts] = useState([]) // То, что мы реально показываем на экране
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+
+  // ВАЖНО: Как только скачали products, сразу копируем их в showProducts
+  useEffect(() => {
+    setShowProducts(products)
+  }, [products])
 
   // Загрузить продукты из Firestore
   const loadProducts = async (productsData) => {
@@ -22,43 +28,34 @@ export const ProductProvider = ({ children }) => {
     }
   }
 
-  // Получить картинку для продукта из Firestore
-  const getProductImage = async (productId) => {
-    try {
-      return await getImageForProduct(productId)
-    } catch (err) {
-      console.error(`Error loading image for product ${productId}:`, err)
-      return null
+  // Функция для фильтрации (ее будем вызывать в сайдбаре)
+  const filterByCategory = (category) => {
+    if (category === 'All') {
+      setShowProducts(products)
+    } else {
+      setShowProducts(products.filter(p => p.category === category))
     }
   }
 
-  // Получить продукт по ID
-  const getProductById = (productId) => {
-    return products.find(p => p.productId === productId)
+  // Остальные функции оставляем как были
+  const getProductImage = async (productId) => {
+    try { return await getImageForProduct(productId) }
+    catch (err) { return null }
   }
 
-  // Добавить продукт
-  const addProduct = (product) => {
-    setProducts([...products, product])
-  }
+  const getProductById = (productId) => products.find(p => p.productId === productId)
+  const addProduct = (product) => setProducts([...products, product])
+  const updateProduct = (productId, updatedData) => setProducts(products.map(p => p.productId === productId ? { ...p, ...updatedData } : p))
+  const deleteProduct = (productId) => setProducts(products.filter(p => p.productId !== productId))
 
-  // Обновить продукт
-  const updateProduct = (productId, updatedData) => {
-    setProducts(products.map(p =>
-      p.productId === productId ? { ...p, ...updatedData } : p
-    ))
-  }
-
-  // Удалить продукт
-  const deleteProduct = (productId) => {
-    setProducts(products.filter(p => p.productId !== productId))
-  }
-
+  // Экспортируем все наружу
   const value = {
     products,
+    showProducts, // <-- Добавлено
     loading,
     error,
     loadProducts,
+    filterByCategory, // <-- Добавлено
     getProductImage,
     getProductById,
     addProduct,
@@ -73,7 +70,6 @@ export const ProductProvider = ({ children }) => {
   )
 }
 
-// Hook для использования контекста
 export const useProducts = () => {
   const context = useContext(ProductContext)
   if (!context) {

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
-import { useProductStore } from '../../store/productStore'
+import { useProducts } from '../../context/ProductContext'
 import styles from './ReportPage.module.css'
 import SafeMap from '../../components/SafeMap/SafeMap'
 
 export default function ReportPage() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { products } = useProductStore()
+  const { products } = useProducts()
+
 
   const product = products.find(p => p.productId === id)
 
@@ -189,7 +190,7 @@ export default function ReportPage() {
             )}
           </div>
         </section>
-            <SafeMap mapUrl={product?.location} />
+           { product?.location && <SafeMap mapUrl={product.location} /> }
         {/* Action Buttons */}
         <section className={styles.actions}>
           <button className={`${styles.actionButton} ${styles.downloadButton}`}>

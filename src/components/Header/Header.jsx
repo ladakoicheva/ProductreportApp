@@ -29,7 +29,7 @@ export default function Header() {
             <>
               <span className={styles.email}>{user.email}</span>
               <button onClick={handleLogout} className={styles.logoutBtn}>
-                Выход
+                Log Out
               </button>
             </>
           ) : (
