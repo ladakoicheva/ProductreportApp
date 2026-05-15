@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import { Link } from 'react-router' // В React Router 6 нужно писать 'react-router-dom', проверьте это!
+import { Link } from 'react-router' // For React Router 6+ use 'react-router-dom'
 import { getProducts } from '../../firebase/db/products/products'
 import styles from './ProductPage.module.css'
 import Sidebar from '../../components/SideBar/SideBar'
 import { useProducts } from '../../context/ProductContext'
 
 export default function ProductPage() {
-  // Достаем showProducts (для рендера) и loadProducts (для загрузки)
+  // Get showProducts (for rendering) and loadProducts (for fetching)
   const { showProducts, loadProducts } = useProducts()
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function ProductPage() {
           console.warn('No products found in Firestore')
         }
 
-        // Сохраняем в контекст
+        // Save to context
         loadProducts(productsData)
       } catch (error) {
         console.error('Error loading:', error)
@@ -27,16 +27,16 @@ export default function ProductPage() {
     }
 
     loadProductsFromFirestore()
-  }, []) // Убрали зависимости, чтобы не было бесконечного цикла
+  }, []) // Removed dependencies to avoid infinite loop
 
   return (
     <div className={styles.container}>
-       <aside className={styles.sidebar}>
+      <aside className={styles.sidebar}>
         <Sidebar />
       </aside>
-    
 
-      {/* Рендерим showProducts вместо products */}
+
+      {/* Render showProducts instead of products */}
       {showProducts.length === 0 ? (
         <p className={styles.empty}>No products found</p>
       ) : (
@@ -69,7 +69,7 @@ export default function ProductPage() {
           ))}
         </div>
       )}
-    
+
     </div>
   )
 }

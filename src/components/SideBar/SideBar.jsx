@@ -4,13 +4,13 @@ import styles from './SideBar.module.css'
 import { useProducts } from '../../context/ProductContext'
 
 export default function SideBar() {
-  // Достаем полный список продуктов (для подсчета) и функцию фильтрации
+  // Get full product list (for counting) and filter function
   const { products, filterByCategory } = useProducts()
   const [selectedCategory, setSelectedCategory] = useState('All')
 
   const handleCategoryClick = (category) => {
-    setSelectedCategory(category) // Красим активную кнопку
-    filterByCategory(category)    // Меняем товары на странице
+    setSelectedCategory(category) // Highlight active button
+    filterByCategory(category)    // Update displayed products
   }
 
   return (
@@ -26,7 +26,7 @@ export default function SideBar() {
         </li>
 
         {CATEGORIES.map(category => {
-          // Считаем продукты по категориям
+          // Count products by category
           const count = products.filter(p => p.category === category).length
 
           if (count === 0) return null

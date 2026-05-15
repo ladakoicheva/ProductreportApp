@@ -31,7 +31,7 @@ export default function Form() {
         const productId = Date.now().toString()
         let imageUrl = null
 
-        // Загрузить картинку в Storage
+        // Upload image to Storage
         if (fileRef.current) {
           try {
             const storageRef = ref(APP_STORAGE, `product_images/${productId}-${fileRef.current.name}`)
@@ -43,7 +43,7 @@ export default function Form() {
           }
         }
 
-        // Сохранить продукт с картинкой в документе
+        // Save product with image in document
         const dataToSave = {
           ...values,
           productId: productId,

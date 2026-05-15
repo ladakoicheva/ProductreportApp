@@ -207,7 +207,7 @@ export default function ReportPage() {
               📄 Download as PDF (ESG Report)
             </button>
             <button className={`${styles.actionButton} ${styles.shareButton}`}>
-              🔗 Share Link
+              🔗 Share
             </button>
           </section>
         </div>

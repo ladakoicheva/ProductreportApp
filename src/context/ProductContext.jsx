@@ -5,16 +5,16 @@ const ProductContext = createContext()
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([])
-  const [showProducts, setShowProducts] = useState([]) // То, что мы реально показываем на экране
+  const [showProducts, setShowProducts] = useState([]) // What we actually display on the screen
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  // ВАЖНО: Как только скачали products, сразу копируем их в showProducts
+  // IMPORTANT: Once we download products, immediately copy them to showProducts
   useEffect(() => {
     setShowProducts(products)
   }, [products])
 
-  // Загрузить продукты из Firestore
+  // Load products from Firestore
   const loadProducts = async (productsData) => {
     try {
       setLoading(true)
@@ -28,7 +28,7 @@ export const ProductProvider = ({ children }) => {
     }
   }
 
-  // Функция для фильтрации (ее будем вызывать в сайдбаре)
+  // Filter function (called from sidebar)
   const filterByCategory = (category) => {
     if (category === 'All') {
       setShowProducts(products)
@@ -37,7 +37,7 @@ export const ProductProvider = ({ children }) => {
     }
   }
 
-  // Остальные функции оставляем как были
+  // Keep other functions as they were
   const getProductImage = async (productId) => {
     try { return await getImageForProduct(productId) }
     catch (err) { return null }
@@ -48,14 +48,14 @@ export const ProductProvider = ({ children }) => {
   const updateProduct = (productId, updatedData) => setProducts(products.map(p => p.productId === productId ? { ...p, ...updatedData } : p))
   const deleteProduct = (productId) => setProducts(products.filter(p => p.productId !== productId))
 
-  // Экспортируем все наружу
+  // Export everything outside
   const value = {
     products,
-    showProducts, // <-- Добавлено
+    showProducts, // <-- Added
     loading,
     error,
     loadProducts,
-    filterByCategory, // <-- Добавлено
+    filterByCategory, // <-- Added
     getProductImage,
     getProductById,
     addProduct,
@@ -73,7 +73,7 @@ export const ProductProvider = ({ children }) => {
 export const useProducts = () => {
   const context = useContext(ProductContext)
   if (!context) {
-    throw new Error('useProducts должен использоваться внутри ProductProvider')
+    throw new Error('useProducts must be used within ProductProvider')
   }
   return context
 }

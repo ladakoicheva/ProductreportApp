@@ -23,12 +23,12 @@ export default function AuthPage() {
         navigate("/products");
       } else {
         if (password !== confirmPassword) {
-          setError("Пароли не совпадают");
+          setError("Passwords do not match");
           setLoading(false);
           return;
         }
         if (password.length < 6) {
-          setError("Пароль должен быть минимум 6 символов");
+          setError("Password must be at least 6 characters");
           setLoading(false);
           return;
         }
@@ -45,7 +45,7 @@ export default function AuthPage() {
   return (
     <div className={styles.container}>
       <div className={styles.authBox}>
-        <h2>{isLogin ? "Вход" : "Регистрация"}</h2>
+        <h2>{isLogin ? "Sign In" : "Sign Up"}</h2>
 
         {error && <div className={styles.error}>{error}</div>}
 
@@ -63,7 +63,7 @@ export default function AuthPage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="password">Пароль:</label>
+            <label htmlFor="password">Password:</label>
             <input
               id="password"
               type="password"
@@ -76,7 +76,7 @@ export default function AuthPage() {
 
           {!isLogin && (
             <div className={styles.formGroup}>
-              <label htmlFor="confirmPassword">Подтвердить пароль:</label>
+              <label htmlFor="confirmPassword">Confirm Password:</label>
               <input
                 id="confirmPassword"
                 type="password"
@@ -89,18 +89,18 @@ export default function AuthPage() {
           )}
 
           <button type="submit" disabled={loading} className={styles.submitBtn}>
-            {loading ? "Загрузка..." : isLogin ? "Войти" : "Зарегистрироваться"}
+            {loading ? "Loading..." : isLogin ? "Sign In" : "Sign Up"}
           </button>
         </form>
 
         <p className={styles.toggleText}>
-          {isLogin ? "Нет аккаунта? " : "Уже есть аккаунт? "}
+          {isLogin ? "Don't have an account? " : "Already have an account? "}
           <button
             type="button"
             className={styles.toggleBtn}
             onClick={() => setIsLogin(!isLogin)}
           >
-            {isLogin ? "Зарегистрироваться" : "Войти"}
+            {isLogin ? "Sign Up" : "Sign In"}
           </button>
         </p>
       </div>

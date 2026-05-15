@@ -1,4 +1,4 @@
-/* Кольорова палітра */
+/* Color palette */
 :root {
   --beige: #F5E6D3;
   --banana: #FFE135;
@@ -402,7 +402,7 @@
   transform: translateY(0);
 }
 
-/* ===== АДАПТИВНИЙ ДИЗАЙН ===== */
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .hero {
     height: 520px;

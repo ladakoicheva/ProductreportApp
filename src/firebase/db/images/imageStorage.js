@@ -2,12 +2,12 @@
 import { APP_DB } from "../.."
 import { doc, getDoc, setDoc, deleteField } from "firebase/firestore"
 
-// Сохранить URL картинки для продукта в Firestore
+// Save image URL for product in Firestore
 export const saveImageForProduct = async (productId, imageUrl) => {
   try {
     const docRef = doc(APP_DB, "products", productId)
     await setDoc(docRef, { imageUrl }, { merge: true })
-    console.log(`URL картинки для продукта ${productId} сохранён в Firestore`)
+    console.log(`Image URL for product ${productId} saved to Firestore`)
     return true
   } catch (error) {
     console.error('Error saving image URL to Firestore:', error)
@@ -15,18 +15,18 @@ export const saveImageForProduct = async (productId, imageUrl) => {
   }
 }
 
-// Получить картинку для продукта
+// Get image for product
 export const getImageForProduct = async (productId) => {
   try {
     const docRef = doc(APP_DB, "products", productId)
     const docSnap = await getDoc(docRef)
 
     if (docSnap.exists() && docSnap.data().imageUrl) {
-      console.log(`Получена картинка для продукта ${productId}:`, true)
+      console.log(`Got image for product ${productId}:`, true)
       return docSnap.data().imageUrl
     }
 
-    console.log(`Картинка для продукта ${productId} не найдена`)
+    console.log(`Image for product ${productId} not found`)
     return null
   } catch (error) {
     console.error('Error getting image URL from Firestore:', error)
@@ -34,12 +34,12 @@ export const getImageForProduct = async (productId) => {
   }
 }
 
-// Удалить картинку для продукта
+// Delete image for product
 export const deleteImageForProduct = async (productId) => {
   try {
     const docRef = doc(APP_DB, "products", productId)
     await setDoc(docRef, { imageUrl: deleteField() }, { merge: true })
-    console.log(`Картинка для продукта ${productId} удалена из Firestore`)
+    console.log(`Image for product ${productId} deleted from Firestore`)
     return true
   } catch (error) {
     console.error('Error deleting image URL from Firestore:', error)

@@ -1,7 +1,7 @@
 import { APP_DB } from "../..";
 import { doc, setDoc, collection, getDocs, deleteDoc } from "firebase/firestore";
 
-// Сохранить продукт (доступен всем, но видно автора)
+// Save product (accessible to all, but author is tracked)
 export const sendData = async (userId, userEmail, data) => {
   try {
     const productRef = doc(APP_DB, "products", data.productId);
@@ -18,7 +18,7 @@ export const sendData = async (userId, userEmail, data) => {
   }
 };
 
-// Получить ВСЕ продукты (для всех пользователей)
+// Get ALL products (for all users)
 export const getProducts = async () => {
   try {
     const productsRef = collection(APP_DB, "products");
@@ -37,7 +37,7 @@ export const getProducts = async () => {
   }
 };
 
-// Получить только продукты текущего пользователя
+// Get only products of current user
 export const getUserProducts = async (userId) => {
   try {
     const products = await getProducts();
@@ -48,7 +48,7 @@ export const getUserProducts = async (userId) => {
   }
 };
 
-// Удалить продукт (только автор может удалить)
+// Delete product (only author can delete)
 export const deleteProduct = async (productId, userId) => {
   try {
     const productRef = doc(APP_DB, "products", productId);

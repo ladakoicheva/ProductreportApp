@@ -59,7 +59,7 @@ export const productStore = {
 export const useProductStore = () => {
   const [state, setState] = useState(storeState)
 
-  // Подписаться на изменения при монтировании
+  // Subscribe to changes on mounting
   useState(() => {
     const unsubscribe = subscribe(newState => {
       setState({ ...newState })
@@ -73,7 +73,7 @@ export const useProductStore = () => {
     getImage: productStore.getImage,
     getProducts: productStore.getProducts,
     setProducts: productStore.setProducts,
-    getShowProducts: productStore.getShowProducts, 
-      
+    getShowProducts: productStore.getShowProducts,
+
   }
 }

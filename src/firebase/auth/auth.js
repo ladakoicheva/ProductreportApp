@@ -6,7 +6,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
-// Регистрация нового пользователя
+// Register new user
 export const registerUser = async (email, password) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(AUTH, email, password);
@@ -18,7 +18,7 @@ export const registerUser = async (email, password) => {
   }
 };
 
-// Вход пользователя
+// User login
 export const loginUser = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(AUTH, email, password);
@@ -30,7 +30,7 @@ export const loginUser = async (email, password) => {
   }
 };
 
-// Выход пользователя
+// User logout
 export const logoutUser = async () => {
   try {
     await signOut(AUTH);
@@ -41,12 +41,12 @@ export const logoutUser = async () => {
   }
 };
 
-// Слушатель для отслеживания статуса авторизации
+// Listener to track authorization status
 export const onAuthChange = (callback) => {
   return onAuthStateChanged(AUTH, callback);
 };
 
-// Получить текущего пользователя
+// Get current user
 export const getCurrentUser = () => {
   return AUTH.currentUser;
 };
