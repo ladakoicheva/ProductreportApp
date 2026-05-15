@@ -1,5 +1,5 @@
 import { APP_DB } from "../..";
-import { doc, setDoc, collection, getDocs, deleteDoc } from "firebase/firestore";
+import { doc, setDoc, collection, getDocs, deleteDoc, getDoc } from "firebase/firestore";
 
 // Save product (accessible to all, but author is tracked)
 export const sendData = async (userId, userEmail, data) => {
@@ -34,6 +34,23 @@ export const getProducts = async () => {
   } catch (e) {
     console.error("Error getting products: ", e);
     return [];
+  }
+};
+
+// Get single product by ID
+export const getProductById = async (productId) => {
+  try {
+    const productRef = doc(APP_DB, "products", productId);
+    const productSnapshot = await getDoc(productRef);
+    if (productSnapshot.exists()) {
+      return productSnapshot.data();
+    } else {
+      console.warn(`Product with ID ${productId} not found`);
+      return null;
+    }
+  } catch (e) {
+    console.error("Error getting product by ID: ", e);
+    return null;
   }
 };
 

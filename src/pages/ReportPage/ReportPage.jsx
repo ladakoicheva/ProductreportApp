@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import { useProducts } from '../../context/ProductContext'
+import { getProductById } from '../../firebase/db/products/products'
 import styles from './ReportPage.module.css'
 import SafeMap from '../../components/SafeMap/SafeMap'
 
@@ -8,9 +9,34 @@ export default function ReportPage() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { products } = useProducts()
+  const [product, setProduct] = useState(null)
+  const [loading, setLoading] = useState(true)
 
 
-  const product = products.find(p => p.productId === id)
+  useEffect(() => {
+    const loadProduct = async () => {
+      setLoading(true)
+      // First try to find in context
+      const contextProduct = products.find(p => p.productId === id)
+      if (contextProduct) {
+        setProduct(contextProduct)
+        setLoading(false)
+        return
+      }
+
+      // If not found in context, load from Firebase
+      try {
+        const fetchedProduct = await getProductById(id)
+        setProduct(fetchedProduct)
+      } catch (error) {
+        console.error('Error loading product:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProduct()
+  }, [id, products])
 
   const getMicrobialActivity = (productionMethod) => {
     switch (productionMethod) {
@@ -23,6 +49,14 @@ export default function ReportPage() {
       default:
         return 'Medium'
     }
+  }
+
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <p>Loading product...</p>
+      </div>
+    )
   }
 
   if (!product) {
