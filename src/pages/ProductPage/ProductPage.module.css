@@ -100,3 +100,50 @@
   color: white;
   font-weight: 600;
 }
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    gap: 20px;
+    padding: 16px;
+  }
+
+  .sidebar,
+  .productsList {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .productsList {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .imageContainer {
+    height: 180px;
+  }
+
+  .name {
+    font-size: 1.15rem;
+  }
+
+  .details {
+    font-size: 0.86rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 12px;
+    gap: 14px;
+  }
+
+  .productInfo {
+    padding: 12px;
+  }
+
+  .imageContainer {
+    height: 160px;
+  }
+}

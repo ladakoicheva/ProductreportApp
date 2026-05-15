@@ -379,6 +379,13 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+  .backButton {
+    top: 12px;
+    left: 12px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
   .container {
     padding: 40px 20px;
   }
@@ -393,6 +400,11 @@
 
   .heroSection {
     height: 300px;
+  }
+
+  .header h2 {
+    font-size: 1.2rem;
+    letter-spacing: 1.2px;
   }
 
   .section h3 {
@@ -433,5 +445,110 @@
 
   .stepContent p {
     font-size: 0.95rem;
+  }
+
+  .carbonBar {
+    height: 44px;
+  }
+
+  .carbonFill,
+  .carbonFillAverage {
+    font-size: 0.92rem;
+    padding-left: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .backButton {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 20;
+  }
+
+  .heroSection {
+    height: 240px;
+  }
+
+  .productTitle {
+    font-size: 1.45rem;
+    letter-spacing: 0.8px;
+    padding: 0 12px;
+  }
+
+  .productSubtitle,
+  .producerEmail {
+    font-size: 0.9rem;
+    margin-top: 8px;
+    padding: 0 12px;
+  }
+
+  .container {
+    padding: 28px 12px;
+  }
+
+  .section {
+    margin-bottom: 52px;
+  }
+
+  .section h3 {
+    font-size: 1.02rem;
+    letter-spacing: 1px;
+    margin-bottom: 18px;
+  }
+
+  .sectionContent {
+    font-size: 0.96rem;
+    line-height: 1.65;
+  }
+
+  .statsGrid,
+  .healthIndicators {
+    grid-template-columns: 1fr;
+  }
+
+  .statCard,
+  .indicator {
+    padding: 18px;
+  }
+
+  .statValue,
+  .indicatorValue {
+    font-size: 1.5rem;
+  }
+
+  .processTimeline::before {
+    display: none;
+  }
+
+  .processStep {
+    margin-left: 0;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .stepIcon {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    font-size: 1.5rem;
+  }
+
+  .stepContent {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  .actions {
+    margin-top: 40px;
+    padding-top: 20px;
+    gap: 12px;
+  }
+
+  .actionButton {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
   }
 }
