@@ -63,6 +63,13 @@
   letter-spacing: 1px;
 }
 
+.producerEmail {
+  font-size: 1.1rem;
+  margin: 20px 0 0 0;
+  font-weight: 500;
+  opacity: 0.95;
+}
+
 /* Container */
 .container {
   max-width: 1000px;

@@ -1,12 +1,15 @@
 import { useRef } from 'react'
 import { useFormik } from 'formik'
+import { useNavigate } from 'react-router'
 import styles from './Form.module.css'
 import { sendData } from '../../firebase/db/products/products'
-import { saveImageForProduct } from '../../firebase/db/images/imageStorage'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { APP_STORAGE } from '../../firebase'
+import { useAuth } from '../../context/AuthContext'
 
 export default function Form() {
+  const { user } = useAuth()
+  const navigate = useNavigate()
   const fileRef = useRef(null)
 
   const formik = useFormik({
@@ -21,29 +24,33 @@ export default function Form() {
     onSubmit: async (values) => {
       try {
         const productId = Date.now().toString()
+        let imageUrl = null
 
+        // Загрузить картинку в Storage
         if (fileRef.current) {
           try {
             const storageRef = ref(APP_STORAGE, `product_images/${productId}-${fileRef.current.name}`)
             await uploadBytes(storageRef, fileRef.current)
-            const downloadURL = await getDownloadURL(storageRef)
-            await saveImageForProduct(productId, downloadURL)
-            console.log(`Image uploaded for product ${productId}`)
+            imageUrl = await getDownloadURL(storageRef)
+            console.log(`Image uploaded for product ${productId}:`, imageUrl)
           } catch (error) {
             console.error('Error uploading image:', error)
           }
         }
 
+        // Сохранить продукт с картинкой в документе
         const dataToSave = {
           ...values,
           productId: productId,
-          img: ''
+          img: '',
+          imageUrl: imageUrl || null
         }
 
-        await sendData(dataToSave)
+        await sendData(user.uid, user.email, dataToSave)
         fileRef.current = null
         formik.resetForm()
         alert('Product added successfully!')
+        navigate('/products')
       } catch (error) {
         console.error('Error sending data:', error)
         alert('Error adding product')

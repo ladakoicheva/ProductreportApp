@@ -6,20 +6,9 @@ import styles from './ReportPage.module.css'
 export default function ReportPage() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { products, getImage } = useProductStore()
-  const [image, setImage] = useState(null)
+  const { products } = useProductStore()
 
   const product = products.find(p => p.productId === id)
-
-  useEffect(() => {
-    const loadImage = async () => {
-      if (product) {
-        const productImage = await getImage(product.productId)
-        setImage(productImage)
-      }
-    }
-    loadImage()
-  }, [product, getImage])
 
   const getMicrobialActivity = (productionMethod) => {
     switch (productionMethod) {
@@ -54,10 +43,11 @@ export default function ReportPage() {
 
       {/* Hero Section with Image */}
       <div className={styles.heroSection}>
-        {image && <img src={image} alt={product.productName} className={styles.heroImage} />}
+        {product.imageUrl && <img src={product.imageUrl} alt={product.productName} className={styles.heroImage} />}
         <div className={styles.heroOverlay}>
           <h1 className={styles.productTitle}>{product.productName}</h1>
           <p className={styles.productSubtitle}>{product.productionMethod}</p>
+          <p className={styles.producerEmail}>👤 By: {product.userEmail}</p>
         </div>
       </div>
 

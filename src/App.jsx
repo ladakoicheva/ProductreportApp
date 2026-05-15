@@ -1,24 +1,48 @@
-import { useEffect } from "react"
 import Header from "./components/Header/Header"
 import HomePage from "./pages/HomePage/HomePage"
 import ProductAddPage from "./pages/ProductAddPage/ProductAddPage"
 import ProductPage from "./pages/ProductPage/ProductPage"
+import AuthPage from "./pages/AuthPage/AuthPage"
 import { Route, Routes, HashRouter } from "react-router"
 import ReportPage from "./pages/ReportPage/ReportPage"
+import { AuthProvider } from "./context/AuthContext"
+import ProtectedRoute from "./components/ProtectedRoute"
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       <HashRouter>
-        <Header></Header>
+        <Header />
         <Routes>
           <Route path='/' element={<HomePage />} />
-          <Route path='/add' element={<ProductAddPage />}></Route>
-          <Route path='products' element={<ProductPage />}></Route>
-          <Route path='products/:id' element={<ReportPage />}></Route>
+          <Route path='/auth' element={<AuthPage />} />
+          <Route
+            path='/add'
+            element={
+              <ProtectedRoute>
+                <ProductAddPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='products'
+            element={
+              <ProtectedRoute>
+                <ProductPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='products/:id'
+            element={
+              <ProtectedRoute>
+                <ReportPage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </HashRouter>
-    </>
+    </AuthProvider>
   )
 }
 

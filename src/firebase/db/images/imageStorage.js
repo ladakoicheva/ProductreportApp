@@ -2,13 +2,11 @@
 import { APP_DB } from "../.."
 import { doc, getDoc, setDoc, deleteField } from "firebase/firestore"
 
-const IMAGES_COLLECTION = 'product_images'
-
 // Сохранить URL картинки для продукта в Firestore
 export const saveImageForProduct = async (productId, imageUrl) => {
   try {
-    const docRef = doc(APP_DB, IMAGES_COLLECTION, productId)
-    await setDoc(docRef, { imageUrl, productId }, { merge: true })
+    const docRef = doc(APP_DB, "products", productId)
+    await setDoc(docRef, { imageUrl }, { merge: true })
     console.log(`URL картинки для продукта ${productId} сохранён в Firestore`)
     return true
   } catch (error) {
@@ -20,7 +18,7 @@ export const saveImageForProduct = async (productId, imageUrl) => {
 // Получить картинку для продукта
 export const getImageForProduct = async (productId) => {
   try {
-    const docRef = doc(APP_DB, IMAGES_COLLECTION, productId)
+    const docRef = doc(APP_DB, "products", productId)
     const docSnap = await getDoc(docRef)
 
     if (docSnap.exists() && docSnap.data().imageUrl) {
@@ -36,18 +34,16 @@ export const getImageForProduct = async (productId) => {
   }
 }
 
-// Получить все картинки из Firestore
-export const getAllImages = async () => {
+// Удалить картинку для продукта
+export const deleteImageForProduct = async (productId) => {
   try {
-    // Примечание: это работает только если у вас небольшое количество изображений
-    // Для больших объёмов лучше использовать pagination
-    const allImages = {}
-    // Этот метод требует структуры данных - рекомендуется хранить URLs прямо в коллекции products
-    console.log('getAllImages: используйте getImageForProduct для отдельных продуктов')
-    return allImages
+    const docRef = doc(APP_DB, "products", productId)
+    await setDoc(docRef, { imageUrl: deleteField() }, { merge: true })
+    console.log(`Картинка для продукта ${productId} удалена из Firestore`)
+    return true
   } catch (error) {
-    console.error('Error getting all images:', error)
-    return {}
+    console.error('Error deleting image URL from Firestore:', error)
+    return false
   }
 }
 

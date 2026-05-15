@@ -82,3 +82,10 @@
 .details strong {
   color: #333;
 }
+
+.author {
+  margin: 8px 0 12px 0;
+  font-size: 0.95rem;
+  color: #667eea;
+  font-weight: 600;
+}
