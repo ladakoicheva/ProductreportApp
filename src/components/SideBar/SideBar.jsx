@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { useProductStore } from '../../store/productStore';
 export default function SideBar() {
   const { products, setProducts } = useProductStore();
   

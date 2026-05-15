@@ -114,17 +114,17 @@ export default function Form() {
 
       <div className={styles.formGroup}>
         <label htmlFor="processing" className={styles.label}>Processing:</label>
-        <input id="processing" type="text" value={formik.values.processing} onChange={formik.handleChange} className={styles.input} placeholder="Describe processing method" />
+        <textarea id="processing" value={formik.values.processing} onChange={formik.handleChange} className={styles.textarea} placeholder="Describe processing method" rows="4"></textarea>
       </div>
 
       <div className={styles.formGroup}>
         <label htmlFor="qualityCheck" className={styles.label}>Quality Check:</label>
-        <input id="qualityCheck" type="text" value={formik.values.qualityCheck} onChange={formik.handleChange} className={styles.input} placeholder="Describe quality check process" />
+        <textarea id="qualityCheck" value={formik.values.qualityCheck} onChange={formik.handleChange} className={styles.textarea} placeholder="Describe quality check process" rows="4"></textarea>
       </div>
 
       <div className={styles.formGroup}>
         <label htmlFor="packaging" className={styles.label}>Packaging:</label>
-        <input id="packaging" type="text" value={formik.values.packaging} onChange={formik.handleChange} className={styles.input} placeholder="Describe packaging details" />
+        <textarea id="packaging" value={formik.values.packaging} onChange={formik.handleChange} className={styles.textarea} placeholder="Describe packaging details" rows="4"></textarea>
       </div>
 
       <button type="submit" className={styles.button}>Submit</button>

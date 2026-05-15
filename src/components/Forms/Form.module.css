@@ -24,7 +24,8 @@
 
 .input,
 .select,
-.fileInput {
+.fileInput,
+.textarea {
   padding: 10px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -35,14 +36,22 @@
 
 .input:focus,
 .select:focus,
-.fileInput:focus {
+.fileInput:focus,
+.textarea:focus {
   outline: none;
   border-color: #4CAF50;
   box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
 
-.input::placeholder {
+.input::placeholder,
+.textarea::placeholder {
   color: #999;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
 }
 
 .rangeInput {
