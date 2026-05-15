@@ -83,6 +83,9 @@ export default function HomePage() {
 
             From farm to table — we make sustainable food simple, trustworthy, and easy to explore
           </p>
+          <p>
+            Our insta:     <a href="https://www.instagram.com/bauern.farm/" target="_blank" rel="noopener noreferrer">@bauern.farm</a>
+          </p>
          
         </div>
         <div className={styles.aboutImage}>🏢</div>
