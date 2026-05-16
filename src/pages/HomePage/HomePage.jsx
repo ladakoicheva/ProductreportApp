@@ -4,8 +4,8 @@ import styles from './HomePage.module.css'
 
 export default function HomePage() {
   const handleSubmit = (e) => {
-    e.preventDefault()
-    alert('Thank you! We will contact you soon')
+    e.preventDefault();
+    alert('Thank you! We will contact you soon');
   }
 
   return (
@@ -15,7 +15,6 @@ export default function HomePage() {
         <div className={styles.heroOverlay}></div>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>From Fields to Your Table</h1>
-
           <Link to="/products" className={styles.heroCTA}>See Products</Link>
         </div>
       </section>
@@ -65,5 +64,5 @@ export default function HomePage() {
         </div>
       </section>
     </div>
-  )
+  ); 
 }; 
