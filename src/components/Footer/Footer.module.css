@@ -1,0 +1,144 @@
+.footer {
+  background: #0a7a00;
+  color: #fff;
+  padding: 34px 24px;
+}
+
+.grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1.6fr 1fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.brandBlock {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.logo {
+  width: 190px;
+  height: auto;
+  display: block;
+}
+
+.brand {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.productList {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.productItem {
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.text {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: 400;
+}
+
+.columnRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 26px;
+}
+
+.rightText {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.05;
+  font-weight: 400;
+}
+
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .brand,
+  .title,
+  .rightText {
+    font-size: 30px;
+  }
+
+  .text {
+    font-size: 16px;
+  }
+
+  .productItem {
+    font-size: 16px;
+  }
+
+  .logo {
+    width: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 24px 14px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    align-items: flex-start;
+  }
+
+  .brandBlock {
+    gap: 12px;
+  }
+
+  .logo {
+    width: 90px;
+  }
+
+  .brand,
+  .title,
+  .rightText {
+    font-size: 24px;
+  }
+
+  .text {
+    font-size: 15px;
+  }
+
+  .productItem {
+    font-size: 15px;
+  }
+
+  .columnRight {
+    gap: 12px;
+  }
+}

@@ -18,6 +18,12 @@ export default function Header() {
 
   return (
     <header className={styles.header}>
+      <div className={styles.logo}>
+        <div className={styles.logoImg}>
+          <img src='/logo.png' alt="Logo" />
+        </div>
+        <h3>Bauern</h3>
+      </div>
       <nav className={styles.nav}>
         <div className={styles.links}>
           <Link to='/'>Home</Link>

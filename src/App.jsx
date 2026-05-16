@@ -7,29 +7,31 @@ import { Route, Routes, HashRouter } from "react-router"
 import ReportPage from "./pages/ReportPage/ReportPage"
 import { AuthProvider } from "./context/AuthContext"
 import ProtectedRoute from "./components/ProtectedRoute"
-import { ProductProvider } from "./context/ProductContext"  
+import { ProductProvider } from "./context/ProductContext"
+import Footer from "./components/Footer/Footer"
 
 function App() {
   return (
     <AuthProvider>
       <ProductProvider>
-      <HashRouter>
-        <Header />
-        <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/auth' element={<AuthPage />} />
-          <Route path='products' element={<ProductPage />} />
-          <Route path='products/:id' element={<ReportPage />} />
-          <Route
-            path='/add'
-            element={
-              <ProtectedRoute>
-                <ProductAddPage />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </HashRouter>
+        <HashRouter>
+          <Header />
+          <Routes>
+            <Route path='/' element={<HomePage />} />
+            <Route path='/auth' element={<AuthPage />} />
+            <Route path='products' element={<ProductPage />} />
+            <Route path='products/:id' element={<ReportPage />} />
+            <Route
+              path='/add'
+              element={
+                <ProtectedRoute>
+                  <ProductAddPage />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+          <Footer />
+        </HashRouter>
       </ProductProvider>
     </AuthProvider>
   )

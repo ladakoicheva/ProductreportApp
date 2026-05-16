@@ -25,6 +25,20 @@
   padding: 40px 20px;
 }
 
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: 400px;
+}
+
+.loading {
+  font-size: 1.3rem;
+  color: #666;
+  font-weight: 500;
+}
+
 .productsList {
   width: 60%;
   display: grid;

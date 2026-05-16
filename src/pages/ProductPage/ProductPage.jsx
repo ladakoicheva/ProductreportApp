@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router' // For React Router 6+ use 'react-router-dom'
 import { getProducts } from '../../firebase/db/products/products'
 import styles from './ProductPage.module.css'
@@ -8,6 +8,7 @@ import { useProducts } from '../../context/ProductContext'
 export default function ProductPage() {
   // Get showProducts (for rendering) and loadProducts (for fetching)
   const { showProducts, loadProducts } = useProducts()
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const loadProductsFromFirestore = async () => {
@@ -23,6 +24,8 @@ export default function ProductPage() {
         loadProducts(productsData)
       } catch (error) {
         console.error('Error loading:', error)
+      } finally {
+        setIsLoading(false)
       }
     }
 
@@ -35,9 +38,11 @@ export default function ProductPage() {
         <Sidebar />
       </aside>
 
-
-      {/* Render showProducts instead of products */}
-      {showProducts.length === 0 ? (
+      {isLoading ? (
+        <div className={styles.loadingContainer}>
+          <p className={styles.loading}>Loading products...</p>
+        </div>
+      ) : showProducts.length === 0 ? (
         <p className={styles.empty}>No products found</p>
       ) : (
         <div className={styles.productsList}>
