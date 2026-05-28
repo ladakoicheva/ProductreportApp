@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router'
 import styles from './Form.module.css'
@@ -12,6 +12,8 @@ export default function Form() {
   const { user } = useAuth()
   const navigate = useNavigate()
   const fileRef = useRef(null)
+  const [step, setStep] = useState(1)
+  const totalSteps = 4
 
   const formik = useFormik({
     initialValues: {
@@ -70,69 +72,151 @@ export default function Form() {
     formik.setFieldValue('img', file.name)
   }
 
+  const nextStep = () => {
+    if (step < totalSteps) {
+      setStep(step + 1)
+    }
+  }
+
+  const prevStep = () => {
+    if (step > 1) {
+      setStep(step - 1)
+    }
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (step < totalSteps) {
+      nextStep()
+    } else {
+      try {
+        const productId = Date.now().toString()
+        let imageUrl = null
+
+        // Upload image to Storage
+        if (fileRef.current) {
+          try {
+            const storageRef = ref(APP_STORAGE, `product_images/${productId}-${fileRef.current.name}`)
+            await uploadBytes(storageRef, fileRef.current)
+            imageUrl = await getDownloadURL(storageRef)
+            console.log(`Image uploaded for product ${productId}:`, imageUrl)
+          } catch (error) {
+            console.error('Error uploading image:', error)
+          }
+        }
+
+        // Save product with image in document
+        const dataToSave = {
+          ...formik.values,
+          productId: productId,
+          img: '',
+          imageUrl: imageUrl || null
+        }
+
+        await sendData(user.uid, user.email, dataToSave)
+        fileRef.current = null
+        formik.resetForm()
+        setStep(1)
+        alert('Product added successfully!')
+        navigate('/products')
+      } catch (error) {
+        console.error('Error sending data:', error)
+        alert('Error adding product')
+      }
+    }
+  }
 
   return (
-    <form onSubmit={formik.handleSubmit} className={styles.form}>
-      <div className={styles.formGroup}>
-        <label htmlFor="images" className={styles.fileInputLabel}>📁 Upload Image:</label>
-        <input type="file" id="images" name="images" onChange={handleImagesChange} className={styles.fileInput} accept="image/*" />
-        {formik.values.img && <p className={styles.info}>✓ Image uploaded</p>}
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <div className={styles.stepIndicator}>
+        <h3>Step {step} of {totalSteps}</h3>
+        <div className={styles.progressBar}>
+          <div className={styles.progress} style={{ width: `${(step / totalSteps) * 100}%` }}></div>
+        </div>
       </div>
 
-      <div className={styles.formGroup}>
-        <label htmlFor="productName" className={styles.label}>Product Name:</label>
-        <input id='productName' name='productName' type="text" value={formik.values.productName} onChange={formik.handleChange} className={styles.input} placeholder="Enter product name" />
-      </div>
+      {step === 1 && (
+        <>
+          <div className={styles.formGroup}>
+            <label htmlFor="images" className={styles.fileInputLabel}>📁 Upload Image:</label>
+            <input type="file" id="images" name="images" onChange={handleImagesChange} className={styles.fileInput} accept="image/*" />
+            {formik.values.img && <p className={styles.info}>✓ Image uploaded</p>}
+          </div>
 
-      <div className={styles.formGroup}>
-        <label htmlFor="category" className={styles.label}>Category:</label>
-        <select id="category" name="category" value={formik.values.category} onChange={formik.handleChange} className={styles.select}>
-          {CATEGORIES.map(cat => (
-            <option key={cat} value={cat}>{cat}</option>
-          ))}
-        </select>
-      </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="productName" className={styles.label}>Product Name:</label>
+            <input id='productName' name='productName' type="text" value={formik.values.productName} onChange={formik.handleChange} className={styles.input} placeholder="Enter product name" />
+          </div>
 
-      <div className={styles.formGroup}>
-        <label htmlFor="productionMethod" className={styles.label}>Production Method:</label>
-        <select id="productionMethod" name="productionMethod" value={formik.values.productionMethod} onChange={formik.handleChange} className={styles.select}>
-          <option value="100%Grass-fed">100% Grass-fed</option>
-          <option value="Organic">Organic</option>
-          <option value="Regeneratively Grown">Regeneratively Grown</option>
-        </select>
-      </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="category" className={styles.label}>Category:</label>
+            <select id="category" name="category" value={formik.values.category} onChange={formik.handleChange} className={styles.select}>
+              {CATEGORIES.map(cat => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </select>
+          </div>
+        </>
+      )}
 
-      <div className={styles.formGroup}>
-        <label htmlFor="quality" className={styles.label}>Soil Quality: {formik.values.quality}%</label>
-        <input id="quality" type="range" min='0' max='100' value={formik.values.quality} onChange={formik.handleChange} className={styles.rangeInput} />
-      </div>
+      {step === 2 && (
+        <>
+          <div className={styles.formGroup}>
+            <label htmlFor="productionMethod" className={styles.label}>Production Method:</label>
+            <select id="productionMethod" name="productionMethod" value={formik.values.productionMethod} onChange={formik.handleChange} className={styles.select}>
+              <option value="100%Grass-fed">100% Grass-fed</option>
+              <option value="Organic">Organic</option>
+              <option value="Regeneratively Grown">Regeneratively Grown</option>
+            </select>
+          </div>
 
-      <div className={styles.formGroup}>
-        <label htmlFor="carbonSequestration" className={styles.label}>Carbon Sequestration:</label>
-        <input id="carbonSequestration" type="number" value={formik.values.carbonSequestration} onChange={formik.handleChange} className={styles.input} placeholder="Enter value" />
-      </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="quality" className={styles.label}>Soil Quality: {formik.values.quality}%</label>
+            <input id="quality" type="range" min='0' max='100' value={formik.values.quality} onChange={formik.handleChange} className={styles.rangeInput} />
+          </div>
 
-      <div className={styles.formGroup}>
-        <label htmlFor="processing" className={styles.label}>Processing:</label>
-        <textarea id="processing" value={formik.values.processing} onChange={formik.handleChange} className={styles.textarea} placeholder="Describe processing method" rows="4"></textarea>
-      </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="carbonSequestration" className={styles.label}>Carbon Sequestration:</label>
+            <input id="carbonSequestration" type="number" value={formik.values.carbonSequestration} onChange={formik.handleChange} className={styles.input} placeholder="Enter value" />
+          </div>
+        </>
+      )}
 
-      <div className={styles.formGroup}>
-        <label htmlFor="qualityCheck" className={styles.label}>Quality Check:</label>
-        <textarea id="qualityCheck" value={formik.values.qualityCheck} onChange={formik.handleChange} className={styles.textarea} placeholder="Describe quality check process" rows="4"></textarea>
-      </div>
+      {step === 3 && (
+        <>
+          <div className={styles.formGroup}>
+            <label htmlFor="processing" className={styles.label}>Processing:</label>
+            <textarea id="processing" value={formik.values.processing} onChange={formik.handleChange} className={styles.textarea} placeholder="Describe processing method" rows="4"></textarea>
+          </div>
 
-      <div className={styles.formGroup}>
-        <label htmlFor="packaging" className={styles.label}>Packaging:</label>
-        <textarea id="packaging" value={formik.values.packaging} onChange={formik.handleChange} className={styles.textarea} placeholder="Describe packaging details" rows="4"></textarea>
-      </div>
-      <div className={styles.formGroup}>
-        <label htmlFor="location" className={styles.label}>Location:</label>
-        <textarea id="location" value={formik.values.location} onChange={formik.handleChange} className={styles.textarea} placeholder="Send google maps link" rows="4"></textarea>
-      </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="qualityCheck" className={styles.label}>Quality Check:</label>
+            <textarea id="qualityCheck" value={formik.values.qualityCheck} onChange={formik.handleChange} className={styles.textarea} placeholder="Describe quality check process" rows="4"></textarea>
+          </div>
+        </>
+      )}
 
+      {step === 4 && (
+        <>
+          <div className={styles.formGroup}>
+            <label htmlFor="packaging" className={styles.label}>Packaging:</label>
+            <textarea id="packaging" value={formik.values.packaging} onChange={formik.handleChange} className={styles.textarea} placeholder="Describe packaging details" rows="4"></textarea>
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="location" className={styles.label}>Location:</label>
+            <textarea id="location" value={formik.values.location} onChange={formik.handleChange} className={styles.textarea} placeholder="Send google maps link" rows="4"></textarea>
+          </div>
+        </>
+      )}
 
-      <button type="submit" className={styles.button}>Submit</button>
+      <div className={styles.buttonGroup}>
+        <button type="button" onClick={prevStep} className={styles.secondaryButton} disabled={step === 1}>
+          ← Back
+        </button>
+        <button type="submit" className={styles.button}>
+          {step === totalSteps ? '✓ Submit' : 'Next →'}
+        </button>
+      </div>
     </form>
   )
 }
